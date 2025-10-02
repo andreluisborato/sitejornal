@@ -3,127 +3,710 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leo News</title>
+    <title>Leo News - Painel Dinâmico Futurista</title>
     <style>
-        /* Estilos básicos para o jornal */
+        /* Estilos Futuristas */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Consolas', 'Courier New', monospace;
             margin: 0;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
         }
 
-        /* Removi a linha "}" que estava errada aqui */
-        
         .header {
-            background-color: #333;
-            color: white;
-            padding: 20px 0;
-            text-align: center; /* Centraliza o texto e a imagem do logo */
+            background-color: #000;
+            color: #00ffff;
+            padding: 30px 0;
+            text-align: center;
+            border-bottom: 3px solid #00ffff;
         }
         
         .header h1 {
             margin: 0;
-            font-size: 3em;
+            font-size: 3.5em;
+            text-shadow: 0 0 10px #00ffff;
         }
 
-        /*Estilo notícia 1 */
-
-
-        #noticia {
-             margin: 10px;
-             font-size: 2em;
-             font-family: 'Courier New', Courier, monospace;
-             text-align: center;
-             text-decoration: underline;
-
-        }
-
-        /* Estilo para a imagem do logo */
         #logo {
-            width: 200px; /* Define a largura do logo para 80px */
-            height: auto; /* Mantém a proporção da imagem */
-            margin-top: 10px; /* Adiciona um espaço acima do logo, se precisar */
+            width: 150px;
+            height: auto;
+            margin-top: 10px;
+            filter: drop-shadow(0 0 5px #00ffff);
         }
 
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        /* --- Estilo do Container Principal para Side Panel --- */
+        .page-content {
+            width: 95%;
+            max-width: 1400px;
+            margin: 30px auto;
+            display: flex;
+            gap: 30px;
         }
+
+        .main-content {
+            flex: 3;
+            padding: 20px;
+            background-color: #2c2c2c;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+
+        /* --- Estilos do Painel Lateral (Sidebar) - STICKY COM ROLAGEM INTERNA --- */
+        .sidebar {
+            flex: 1;
+            background-color: #3a3a3a;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #00ff99;
+            box-shadow: 0 0 15px rgba(0, 255, 153, 0.3);
+            
+            /* 1. Torna o sidebar fixo durante o scroll da página */
+            position: sticky; 
+            top: 20px; 
+            
+            /* 2. Permite que o texto dentro dele seja rolado */
+            max-height: calc(100vh - 40px);
+            overflow-y: auto; 
+        }
+        
+        /* Oculta a barra de rolagem (opcional para estética futurista) */
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background-color: #00ff99;
+            border-radius: 10px;
+        }
+        /* Fim da customização da scrollbar */
+        
+        .sidebar h2 {
+            color: #00ff99;
+            font-size: 1.8em;
+            border-bottom: 2px solid #00ffff;
+            padding-bottom: 10px;
+            margin-top: 0;
+            text-transform: uppercase;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar li a {
+            display: block;
+            padding: 10px 0;
+            text-decoration: none;
+            color: #e0e0e0;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        
+        .sidebar li a:hover {
+            color: #00ffff;
+            text-shadow: 0 0 5px #00ffff;
+            padding-left: 5px;
+        }
+
+        .sidebar li a.active-filter {
+             color: #00ffff;
+             font-weight: bold;
+             text-shadow: 0 0 5px #00ffff;
+        }
+        
+        /* Estilos do Link de Login */
+        #login-link {
+            color: #ff0066; /* Cor de destaque para login/acesso */
+            border-top: 1px solid #ff0066;
+            padding-top: 15px !important;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        #login-link:hover {
+            color: #ff3399;
+            text-shadow: 0 0 5px #ff3399;
+        }
+        /* --- Fim Estilos do Painel Lateral --- */
+
+        /* Estilos do Formulário de Postagem (Login) */
+        .sidebar form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .sidebar input[type="text"],
+        .sidebar select,
+        .sidebar textarea {
+            padding: 8px;
+            border: 1px solid #00ff99;
+            background-color: #2c2c2c;
+            color: #e0e0e0;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+        }
+        .sidebar button {
+            padding: 10px;
+            background-color: #00ff99;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 3px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .sidebar button:hover {
+            background-color: #00ffff;
+            box-shadow: 0 0 10px #00ffff;
+        }
+        
+        /* Estilos para o novo artigo dinâmico */
+        .news-article-dynamic {
+            border-color: #ff0066 !important; 
+            box-shadow: 0 0 10px rgba(255, 0, 102, 0.5) !important;
+        }
+        
+        /* Botões de controle de edição/remoção */
+        .admin-controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .admin-controls button {
+            padding: 5px 10px;
+            font-size: 0.9em;
+            background-color: #00ffff;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .admin-controls .delete-btn {
+            background-color: #ff0066;
+            color: #fff;
+        }
+
+        /* Oculta o conteúdo interno para o formulário */
+        #menu-categorias, #postagem-form {
+            display: block;
+        }
+        #postagem-form {
+            display: none;
+        }
+        
+        /* --- Conteúdo Principal e Artigos mantidos iguais --- */
+        .category-heading {
+            color: #00ffff;
+            font-size: 2.2em;
+            border-bottom: 2px solid #00ff99;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
         .news-section {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 30px;
             margin-bottom: 40px;
         }
+
         .news-article {
-            flex: 1 1 300px;
-            background-color: #f9f9f9;
+            flex: 1 1 350px;
+            background-color: #3a3a3a;
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            border: 1px solid #00ffff;
+            border-radius: 5px;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+            transition: transform 0.3s ease-in-out;
         }
+        
+        .news-article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+        }
+
         .news-article h2 {
             margin-top: 0;
+            font-size: 1.5em;
+            color: #00ff99;
         }
-        .news-article .content {
-            margin-top: 15px;
+        
+        /* Remove o flex-basis 100% da manchete principal para não quebrar o layout */
+        .news-section:first-child .news-article:first-child {
+            flex: 1 1 350px !important; 
         }
+
+
+        .news-article h4 {
+             color: #e0e0e0;
+        }
+
+        .news-article h6 {
+            color: #999;
+            font-size: 0.8em;
+            margin-top: auto;
+            align-self: flex-end;
+        }
+
         .news-article img {
             width: 100%;
             height: auto;
-            border-radius: 5px;
+            border-radius: 3px;
             margin-bottom: 15px;
+            border: 1px solid #00ff99;
         }
-        .news-article audio {
+
+        .news-article audio,
+        .news-article video {
             width: 100%;
             margin-bottom: 15px;
+            background-color: #1a1a1a;
+            border-radius: 3px;
+            border: 1px solid #00ffff;
+        }
+        
+        .content-section {
+            display: none;
+        }
+
+        @media (max-width: 900px) {
+            .page-content {
+                flex-direction: column;
+            }
+            .sidebar {
+                position: static; 
+                max-height: none; 
+                overflow-y: visible; 
+                flex: none;
+                width: auto;
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <section class="news-article">
-        
-
     <header class="header">
         <img id="logo" src="/home/andre/Área de trabalho/leonews/logo.png" alt="Logo Leo News">
+        <h1 id="main-title">L E O N E W S - T O D A S &nbsp; A S &nbsp; N O T Í C I A S</h1>
     </header>
 
-<section class="news-article">
-            <article class="news-article" style="flex: 1 1 100%;">
-                <h2 class="noticia">Entrevista com o Bruno.</h2>
-                <audio controls>
-                    <source src="/home/andre/Área de trabalho/leonews/audios/Voz 001.m4a" type="audio/mpeg">
-                    Seu navegador não suporta aúdio.
-                </audio>
-                <h6>30/09/25</h6>
-                <h1>Entrevista com o Bruno com o tema Edutech e Robótica</h1>
-            </article>
-        </section>
-
-    <main class="container">
-        <section class="news-section">
-            <article class="news-article" style="flex: 0.5 1 100%;">
-                <h2 id="noticia">Campanha Solidária</h2>
-                <div class="content">
-                    <img src="/home/andre/Área de trabalho/leonews/campanha solidaria.jpg">
-                    <h4 id="texto">Alunos do 7º1 e 7º2 da Escola Estadual Leopoldina B. Pedroso criaram uma campanha solidária para ajudar crianças de 7 a 14 anos da intituição Casa Lar, as doações podem ser feitas até dia 17/10 na secretaria da escola.</h4>
-                    <h6>23/09/2025</h6>
-                </div>
-            </article>
-        </section>
-
-    
-            </section>
-
+    <div class="page-content">
         
+        <aside class="sidebar">
+            
+            <div id="menu-categorias">
+                <h2>C A T E G O R I A S</h2>
+                <nav>
+                    <ul>
+                        <li><a data-category="all" class="active-filter">Todas as Notícias</a></li>
+                        <li><a data-category="audio">Áudio (Entrevistas/Podcasts)</a></li>
+                        <li><a data-category="imagem">Imagem & Texto (Reportagens)</a></li>
+                        <li><a data-category="video">Vídeo (Coberturas)</a></li>
+                        <li><a data-category="tech">Tech Trends</a></li>
+                        <li><a data-category="science">Ciência e Espaço</a></li>
+                        <li><a data-category="games">E-Sports e Games</a></li>
+                        <li><a data-category="culture">Cultura Digital</a></li>
+                        <li><a data-category="health">Biohacking & Saúde</a></li>
+                        <li><a data-category="finance">Cripto & Finanças</a></li>
+                        <li><a data-category="security">Cibersegurança</a></li>
+                        <li><a data-category="editorial">Editorial</a></li>
+                        <li><a data-category="arquivo">Arquivos Antigos</a></li>
+                        <li><a id="login-link" onclick="loginEquipe(event)">Login (Equipe)</a></li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <div id="postagem-form">
+                <h2>P O S T A R / E D I T A R</h2>
+                <form id="news-form">
+                    <input type="hidden" id="post-index" value="-1"> <label for="post-titulo" style="color:#00ffff;">Título:</label>
+                    <input type="text" id="post-titulo" required maxlength="100">
+                    
+                    <label for="post-categoria" style="color:#00ffff;">Categoria:</label>
+                    <select id="post-categoria" required>
+                        <option value="imagem">Imagem & Texto</option>
+                        <option value="audio">Áudio</option>
+                        <option value="video">Vídeo</option>
+                    </select>
+
+                    <label for="post-conteudo" style="color:#00ffff;">Conteúdo (Texto ou URL de mídia):</label>
+                    <textarea id="post-conteudo" rows="4" required></textarea>
+                    
+                    <label for="post-resumo" style="color:#00ffff;">Resumo (Apenas texto):</label>
+                    <textarea id="post-resumo" rows="2" required></textarea>
+
+                    <button type="button" id="submit-btn" onclick="postarNoticia()">Postar Notícia</button>
+                    <button type="button" onclick="logoutEquipe()" style="background-color: #ff0066; color: #fff;">Voltar (Logout)</button>
+                </form>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            
+            <div id="all-content" class="content-section" style="display: block;"> 
+                
+                <h2 class="category-heading">Destaques</h2>
+                
+                <section class="news-section" id="dynamic-news-section"></section>
+                
+                <hr id="dynamic-hr-separator" style="display: none;">
+                
+                <h2 class="category-heading" id="static-news-heading">Outras Notícias</h2>
+                
+                <section class="news-section" id="static-news-section">
+                    
+                    <article class="news-article" data-category="audio" style="flex: 1 1 100%;">
+                        <h2 class="noticia">Entrevista Exclusiva</h2>
+                        <audio controls>
+                            <source src="/home/andre/Área de trabalho/leonews/audios/Voz 001.m4a" type="audio/mpeg">
+                            Seu navegador não suporta aúdio.
+                        </audio>
+                        <h1>Entrevista com o Bruno com o tema **Edutech e Robótica**</h1>
+                        <h6>30/09/25</h6>
+                    </article>
+
+                    <article class="news-article" data-category="imagem">
+                        <h2>Campanha Solidária</h2>
+                        <div class="content">
+                            <img src="/home/andre/Área de trabalho/leonews/campanha solidaria.jpg" alt="Foto da Campanha Solidária">
+                            <h4>Alunos do 7º1 e 7º2 da Escola Estadual Leopoldina B. Pedroso criaram uma campanha solidária para ajudar crianças de 7 a 14 anos da intituição Casa Lar, as doações podem ser feitas até dia 17/10 na secretaria da escola.</h4>
+                        </div>
+                        <h6>23/09/2025</h6>
+                    </article>
+
+                    <article class="news-article" data-category="video">
+                        <h2>Trailer: O Novo Lançamento de Jogos</h2>
+                        <video controls>
+                            <source src="/caminho/para/seu/video/trailer.webm" type="video/webm">
+                            Seu navegador não suporta vídeo.
+                        </video>
+                        <h4>Prepare-se para o game que vai revolucionar o conceito de realidade virtual. Veja o trailer exclusivo de "Cyber-Domination 2077".</h4>
+                        <h6>25/09/2025</h6>
+                    </article>
+                </section>
+                
+                <p style="height: 800px; color: #555; text-align: center; padding-top: 50px; border-top: 1px dashed #00ffff;">
+                    --- ESPAÇO EXTRA DE CONTEÚDO ---
+                </p>
+
+            </div> <div id="filtered-results">
+                </div>
+
+        </main>
+    </div>
+
+    <script>
+        // --- VARIÁVEIS GLOBAIS ---
+        const NEWS_STORAGE_KEY = 'leonews_dynamic_articles';
+        let isLoggedIn = false; // Estado de login
+        
+        // --- FUNÇÕES DE PERSISTÊNCIA (LOCALSTORAGE) ---
+        function getDynamicArticles() {
+            const articlesJson = localStorage.getItem(NEWS_STORAGE_KEY);
+            return articlesJson ? JSON.parse(articlesJson) : [];
+        }
+
+        function saveDynamicArticles(articles) {
+            localStorage.setItem(NEWS_STORAGE_KEY, JSON.stringify(articles));
+        }
+
+        // --- FUNÇÕES DE RENDERIZAÇÃO DE NOTÍCIAS ---
+        function createNewsArticleElement(articleData, index) {
+            const article = document.createElement('article');
+            article.classList.add('news-article', 'news-article-dynamic');
+            article.setAttribute('data-category', articleData.category);
+
+            // Título e Categoria
+            const h2 = document.createElement('h2');
+            h2.textContent = 'Postagem da Equipe';
+            const h1 = document.createElement('h1');
+            h1.textContent = articleData.title;
+
+            // Mídia e Resumo
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('content');
+            
+            // Renderiza o tipo de mídia
+            const mediaContent = document.createElement(articleData.category === 'imagem' ? 'img' : articleData.category);
+            if (articleData.category === 'imagem') {
+                mediaContent.src = articleData.content || 'https://via.placeholder.com/400x250/ff0066/ffffff?text=IMAGEM+DA+EQUIPE';
+                mediaContent.alt = articleData.title;
+            } else if (articleData.category === 'audio' || articleData.category === 'video') {
+                mediaContent.controls = true;
+                const source = document.createElement('source');
+                source.src = articleData.content;
+                source.type = `${articleData.category}/${articleData.category === 'audio' ? 'mpeg' : 'mp4'}`;
+                mediaContent.appendChild(source);
+            }
+            contentDiv.appendChild(mediaContent);
+            
+            const h4 = document.createElement('h4');
+            h4.textContent = articleData.summary;
+            contentDiv.appendChild(h4);
+
+            // Data
+            const h6 = document.createElement('h6');
+            h6.textContent = articleData.date;
+
+            article.appendChild(h2);
+            article.appendChild(contentDiv);
+            article.appendChild(h6);
+            
+            // --- ADICIONA BOTÕES DE ADMINISTRAÇÃO SE LOGADO ---
+            if (isLoggedIn) {
+                const controlsDiv = document.createElement('div');
+                controlsDiv.classList.add('admin-controls');
+                
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Editar';
+                editBtn.onclick = () => editNewsArticle(index);
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Remover';
+                deleteBtn.classList.add('delete-btn');
+                deleteBtn.onclick = () => deleteNewsArticle(index);
+                
+                controlsDiv.appendChild(editBtn);
+                controlsDiv.appendChild(deleteBtn);
+                article.appendChild(controlsDiv);
+            }
+            
+            return article;
+        }
+        
+        function renderDynamicArticles(forceFilterAll = false) {
+            const dynamicNewsSection = document.getElementById('dynamic-news-section');
+            const dynamicHr = document.getElementById('dynamic-hr-separator');
+            dynamicNewsSection.innerHTML = '';
+            
+            const dynamicArticles = getDynamicArticles();
+            
+            if (dynamicArticles.length > 0) {
+                dynamicArticles.forEach((articleData, index) => {
+                    const articleElement = createNewsArticleElement(articleData, index);
+                    dynamicNewsSection.appendChild(articleElement);
+                });
+                dynamicHr.style.display = 'block';
+                document.getElementById('static-news-heading').textContent = 'Outras Notícias (Estáticas)';
+            } else {
+                dynamicHr.style.display = 'none';
+                document.getElementById('static-news-heading').textContent = 'Outras Notícias'; // Volta ao título padrão
+            }
+            
+            if (forceFilterAll) {
+                filterContent('all');
+            }
+        }
+        
+        // --- FUNÇÕES DE ADMINISTRAÇÃO ---
+        function loginEquipe(e) {
+            if (e) e.preventDefault();
+            const PASSWORD = 'leonews2024';
+            const input = prompt("Digite a senha da equipe para postar notícias:");
+
+            if (input === PASSWORD) {
+                isLoggedIn = true;
+                alert("Login de equipe realizado com sucesso! Você agora pode postar, editar e remover notícias dinâmicas.");
+                
+                // Mudar para o modo de postagem
+                document.getElementById('menu-categorias').style.display = 'none';
+                document.getElementById('postagem-form').style.display = 'block';
+                
+                // Redesenha os artigos com os botões de controle
+                renderDynamicArticles(true); 
+            } else if (input !== null) {
+                alert("Senha incorreta. Acesso negado.");
+            }
+        }
+
+        function logoutEquipe() {
+            isLoggedIn = false;
+            // Volta para o modo de menu
+            document.getElementById('postagem-form').style.display = 'none';
+            document.getElementById('menu-categorias').style.display = 'block';
+            
+            // Redesenha os artigos sem os botões de controle
+            renderDynamicArticles(true);
+        }
+
+        function deleteNewsArticle(index) {
+            if (!isLoggedIn) return;
+            if (!confirm("Tem certeza que deseja remover esta notícia?")) return;
+            
+            const articles = getDynamicArticles();
+            articles.splice(index, 1); // Remove o item no índice especificado
+            saveDynamicArticles(articles);
+            
+            alert("Notícia removida com sucesso!");
+            renderDynamicArticles(true);
+        }
+
+        function editNewsArticle(index) {
+            if (!isLoggedIn) return;
+            
+            const articles = getDynamicArticles();
+            const articleToEdit = articles[index];
+            
+            // 1. Preenche o formulário com os dados da notícia
+            document.getElementById('post-index').value = index;
+            document.getElementById('post-titulo').value = articleToEdit.title;
+            document.getElementById('post-categoria').value = articleToEdit.category;
+            document.getElementById('post-conteudo').value = articleToEdit.content;
+            document.getElementById('post-resumo').value = articleToEdit.summary;
+            
+            // 2. Ajusta o botão e o título do formulário para edição
+            document.getElementById('submit-btn').textContent = 'Salvar Edição';
+            document.querySelector('#postagem-form h2').textContent = 'E D I T A N D O &nbsp; N O T Í C I A';
+            
+            // 3. Muda para o modo de formulário (se já não estiver)
+            document.getElementById('menu-categorias').style.display = 'none';
+            document.getElementById('postagem-form').style.display = 'block';
+            
+            filterContent('all'); // Mantém na visualização de todas as notícias
+        }
+
+        function postarNoticia() {
+            const index = document.getElementById('post-index').value;
+            const title = document.getElementById('post-titulo').value;
+            const category = document.getElementById('post-categoria').value;
+            const content = document.getElementById('post-conteudo').value;
+            const summary = document.getElementById('post-resumo').value;
+
+            if (!title || !content || !summary) {
+                alert("Por favor, preencha todos os campos.");
+                return;
+            }
+
+            const articles = getDynamicArticles();
+            const today = new Date();
+            const dateString = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+
+            const articleData = { title, category, content, summary, date: dateString };
+
+            if (index === "-1") {
+                // Modo Postagem
+                articles.unshift(articleData); 
+                alert(`Notícia "${title}" postada com sucesso!`);
+            } else {
+                // Modo Edição
+                articles[index] = articleData;
+                alert(`Notícia "${title}" editada com sucesso!`);
+                
+                // Reseta o formulário para o modo "Postar"
+                document.getElementById('post-index').value = "-1";
+                document.getElementById('submit-btn').textContent = 'Postar Notícia';
+                document.querySelector('#postagem-form h2').textContent = 'N O V A &nbsp; N O T Í C I A';
+            }
+            
+            saveDynamicArticles(articles);
+            document.getElementById('news-form').reset();
+            renderDynamicArticles(true); // Redesenha e força o filtro para "Todas"
+        }
+
+        // --- FUNÇÕES DE FILTRAGEM ---
+        const sidebarLinks = document.querySelectorAll('.sidebar li a');
+        const filteredResults = document.getElementById('filtered-results');
+        const allContent = document.getElementById('all-content');
+        const mainTitle = document.getElementById('main-title');
+        
+        const categoryTitles = {
+            'all': 'L E O N E W S - T O D A S &nbsp; A S &nbsp; N O T Í C I A S',
+            'audio': 'L E O N E W S - Á U D I O S',
+            'imagem': 'L E O N E W S - I M A G E M & T E X T O',
+            'video': 'L E O N E W S - V Í D E O S',
+            'tech': 'L E O N E W S - T E C H &nbsp; T R E N D S',
+            // ... (restante dos títulos de categoria)
+        };
+
+        function filterContent(category) {
+            // ... (código de filtragem mantido, com pequenas adaptações para renderizar os botões de admin corretamente se logado) ...
+            
+            filteredResults.innerHTML = '';
+            allContent.style.display = 'none';
+
+            mainTitle.innerHTML = categoryTitles[category] || categoryTitles['all'];
+
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active-filter');
+                if (link.id !== 'login-link' && link.getAttribute('data-category') === category) {
+                    link.classList.add('active-filter');
+                }
+            });
+
+            if (category === 'all') {
+                allContent.style.display = 'block';
+                return;
+            }
+
+            const heading = document.createElement('h2');
+            heading.classList.add('category-heading');
+            
+            let fullTitle = categoryTitles[category] || 'NOTÍCIAS FILTRADAS';
+            let headingText = fullTitle.replace('L E O N E W S - ', '');
+
+            heading.textContent = headingText;
+            filteredResults.appendChild(heading);
+
+            const newsSection = document.createElement('section');
+            newsSection.classList.add('news-section');
+
+            let articlesFound = 0;
+            
+            // Filtra notícias estáticas
+            document.querySelectorAll('#static-news-section .news-article').forEach(article => {
+                if (article.getAttribute('data-category') === category) {
+                    const clonedArticle = article.cloneNode(true); 
+                    clonedArticle.style.flex = ''; 
+                    newsSection.appendChild(clonedArticle);
+                    articlesFound++;
+                }
+            });
+            
+            // Filtra notícias dinâmicas (usa a função de criação que já verifica o login)
+            const dynamicArticles = getDynamicArticles();
+            dynamicArticles.forEach((articleData, index) => {
+                if (articleData.category === category) {
+                    const articleElement = createNewsArticleElement(articleData, index);
+                    articleElement.style.flex = ''; 
+                    newsSection.appendChild(articleElement);
+                    articlesFound++;
+                }
+            });
+
+            if (articlesFound > 0) {
+                filteredResults.appendChild(newsSection);
+            } else {
+                const noResults = document.createElement('p');
+                noResults.style.color = '#00ff99';
+                noResults.textContent = `Nenhuma notícia encontrada na categoria: ${headingText}.`;
+                filteredResults.appendChild(noResults);
+            }
+        }
+        
+        // --- INICIALIZAÇÃO ---
+        document.addEventListener('DOMContentLoaded', function() {
+            renderDynamicArticles(); 
+            
+            document.querySelectorAll('.sidebar li a').forEach(link => {
+                if (link.id !== 'login-link') { 
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault(); 
+                        const category = this.getAttribute('data-category');
+                        filterContent(category);
+                    });
+                }
+            });
+
+            filterContent('all');
+        });
+    </script>
 
 </body>
 </html>
+  
